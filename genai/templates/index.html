@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body onload="playAudio()">
+    <div class="container">
+        <h1>Directions</h1>
+
+        <!-- Embedded Map -->
+        <iframe
+            src="{{ embed_url }}"
+            width="100%"
+            height="400"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+
+        <p><a href="{{ maps_url }}" target="_blank">Open directions in Google Maps</a></p>
+        
+        <h2>Step-by-Step Directions:</h2>
+        <ul>
+            {% for step in steps %}
+            <li>{{ step | safe }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h2>Audio Directions:</h2>
+        <!-- Audio element for first step -->
+        <audio id="firstStepAudio" autoplay>
+            <source src="{{ url_for('static', filename='audio/first_step.mp3') }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <div class="back-button-container">
+            <a href="{{ url_for('index') }}" class="btn-submit">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        function playAudio() {
+            const audio = document.getElementById('firstStepAudio');
+            audio.play();
+        }
+    </script>
+</body>
+</html>
