@@ -10,7 +10,6 @@
     <div class="container">
         <h1>Directions</h1>
 
-        <!-- Embedded Map -->
         <iframe
             src="{{ embed_url }}"
             width="100%"
@@ -31,7 +30,6 @@
         </ul>
         
         <h2>Audio Directions:</h2>
-        <!-- Audio element for first step -->
         <audio id="firstStepAudio" autoplay>
             <source src="{{ url_for('static', filename='audio/first_step.mp3') }}" type="audio/mpeg">
             Your browser does not support the audio element.
