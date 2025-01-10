@@ -7,19 +7,15 @@ from flask_session import Session
 from io import BytesIO
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a secure secret key
+app.secret_key = 'your_secret_key' 
 
-# Configure session to use filesystem
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Google Maps API Key (replace with your actual key)
 GMAPS_API_KEY = 'Your google map API_KEY'
 
-# Load spaCy language model
 nlp = spacy.load("en_core_web_sm")
 
-# List of destinations with coordinates
 DESTINATIONS = {
     "Tech Park": {"lat": 12.824555, "lon": 80.045098},
     "HI-Tech": {"lat": 12.820791, "lon": 80.038933},
@@ -57,16 +53,14 @@ DESTINATIONS = {
 
 @app.route('/')
 def index():
-    # Clear session for a new chat
     session.clear()
     return render_template('chat.html')
 
 @app.route('/get_response', methods=['POST'])
 def get_response():
     user_message = request.json.get("message", "")
-    print("Received message:", user_message)  # Debugging print
+    print("Received message:", user_message) 
 
-    # Step 1: Send Greeting and Initial Destination Options
     if 'origin' not in session:
         response_text = (
             "Hello! Welcome to the GPS Chatbot. Would you like to use your current location as the starting point? "
@@ -78,7 +72,6 @@ def get_response():
             "show_location_button": True
         })
 
-    # Step 2: Set Destination
     if 'destination' not in session:
         destination_name, destination_coords = extract_destination(user_message)
         if destination_coords:
@@ -108,12 +101,11 @@ def tts():
 
 def extract_destination(message):
     """Extract destination name by finding partial, case-insensitive matches."""
-    doc = nlp(message.lower())  # Parse message in lowercase
-    user_words = [token.text for token in doc]  # Tokenize the message
+    doc = nlp(message.lower()) 
+    user_words = [token.text for token in doc]  
     
     for name, coords in DESTINATIONS.items():
-        name_lower = name.lower()  # Convert destination name to lowercase
-        # Check if any word from the user's message is in the destination name
+        name_lower = name.lower() 
         if any(word in name_lower for word in user_words):
             return name, coords
     
@@ -121,30 +113,27 @@ def extract_destination(message):
 
 @app.route('/set_origin', methods=['POST'])
 def set_origin():
-    # Set the origin as the current location provided by the user
     origin_lat = request.json.get("lat")
     origin_lon = request.json.get("lon")
-    if origin_lat and origin_lon:  # Ensure lat and lon are provided
+    if origin_lat and origin_lon: 
         session['origin'] = f"{origin_lat},{origin_lon}"
         return jsonify({
             "response": "Location set! Now, please tell me where you want to go.",
-            "destinations": list(DESTINATIONS.keys())  # Send destinations in the response
+            "destinations": list(DESTINATIONS.keys())
         })
     return jsonify({"response": "Failed to set location. Please try again."}), 400
 
 @app.route('/directions')
 def directions():
-    # Set default mode as walking
-    mode = request.args.get("mode", "walking")
-    session['mode'] = mode  # Store mode in session to retain selection on reload
 
-    # Check if origin and destination are in session
+    mode = request.args.get("mode", "walking")
+    session['mode'] = mode 
+
     if 'origin' in session and 'destination' in session:
         origin = session['origin']
         destination_name = session['destination']
         destination_coords = session['destination_coords']
 
-        # Generate Google Maps Directions API request
         directions_url = (
             f"https://maps.googleapis.com/maps/api/directions/json"
             f"?origin={origin}&destination={destination_coords['lat']},{destination_coords['lon']}"
@@ -154,7 +143,6 @@ def directions():
         response = requests.get(directions_url)
         directions_data = response.json()
 
-        # Extract steps from the directions API response
         if directions_data['status'] == 'OK':
             steps = [
                 step['html_instructions'] for leg in directions_data['routes'][0]['legs']
@@ -163,13 +151,11 @@ def directions():
         else:
             steps = ["Directions could not be retrieved. Please try again."]
 
-        # Generate TTS for audio directions
         directions_text = f"Directions to {destination_name} from your current location."
         tts = gTTS(text=directions_text, lang='en')
         audio_path = os.path.join("static/audio", "directions.mp3")
         tts.save(audio_path)
 
-        # Generate Google Maps Embed URL for the selected mode
         embed_url = f"https://www.google.com/maps/embed/v1/directions?key={GMAPS_API_KEY}&origin={origin}&destination={destination_coords['lat']},{destination_coords['lon']}&mode={mode}"
         maps_url = f"https://www.google.com/maps/dir/?api=1&origin={origin}&destination={destination_coords['lat']},{destination_coords['lon']}&travelmode={mode}"
 
