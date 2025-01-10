@@ -10,14 +10,12 @@
     <div class="container">
         <h1>Directions</h1>
 
-        <!-- Mode Selection Buttons -->
         <div class="mode-buttons">
             <button onclick="updateMode('walking')">🚶🏾‍♂️</button>
             <button onclick="updateMode('bicycling')">🏍️</button>
             <button onclick="updateMode('driving')">🚗</button>
         </div>
 
-        <!-- Embedded Map -->
         <iframe
             id="map-frame"
             src="{{ embed_url }}"
@@ -51,7 +49,6 @@
 
     <script>
         function updateMode(mode) {
-            // Reload directions with the selected mode
             window.location.href = `{{ url_for('directions') }}?mode=${mode}`;
         }
     </script>
