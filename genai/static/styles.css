@@ -1,4 +1,4 @@
-/* General reset */
+
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +6,7 @@
     font-family: Arial, sans-serif;
 }
 
-/* Container styling */
+
 .container, .chat-container {
     max-width: 600px;
     margin: 50px auto;
@@ -17,20 +17,19 @@
     text-align: center;
 }
 
-/* Header styling */
 h1 {
     color: #4a90e2;
     font-size: 2em;
     margin-bottom: 20px;
 }
 
-/* Paragraph styling */
+
 p {
     color: #555;
     margin-bottom: 20px;
 }
 
-/* Chatbox styling */
+
 #chat-box {
     height: 300px;
     overflow-y: scroll;
@@ -41,7 +40,6 @@ p {
     margin-bottom: 15px;
 }
 
-/* Chat message styling */
 .message {
     padding: 10px;
     margin: 8px;
@@ -64,7 +62,7 @@ p {
     margin-right: auto;
 }
 
-/* Stylish input field */
+
 input#user-input {
     padding: 10px;
     width: 75%;
@@ -80,7 +78,7 @@ input#user-input:focus {
     border-color: #4a90e2;
 }
 
-/* Send button styling */
+
 button {
     padding: 10px 15px;
     font-size: 1em;
@@ -96,7 +94,6 @@ button:hover {
     background-color: #357ABD;
 }
 
-/* Location Button */
 button#location-button {
     background-color: #5cb85c;
     margin-top: 10px;
@@ -106,7 +103,6 @@ button#location-button:hover {
     background-color: #4cae4c;
 }
 
-/* Destination button styling */
 .button-container {
     display: flex;
     flex-wrap: wrap;
@@ -130,7 +126,6 @@ button#location-button:hover {
     background-color: #379683;
 }
 
-/* Submit button styling */
 .btn-submit {
     background-color: #4a90e2;
     color: white;
@@ -147,7 +142,6 @@ button#location-button:hover {
     background-color: #357ABD;
 }
 
-/* Embedded map */
 iframe {
     border-radius: 10px;
     margin-bottom: 20px;
