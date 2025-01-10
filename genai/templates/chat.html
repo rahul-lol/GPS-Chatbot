@@ -11,7 +11,6 @@
         <h1>GPS Chatbot</h1>
         <div id="chat-box"></div>
 
-        <!-- Input area with location and send buttons -->
         <div class="input-area">
             <input type="text" id="user-input" placeholder="Type your message here...">
             <button onclick="sendMessage()">Send</button>
@@ -23,12 +22,11 @@
         const ttsAudio = new Audio();
 
         function greetUser() {
-            // Display initial greeting message
+
             const greetingMessage = "Hello! Welcome to the GPS Chatbot. Please click the 'Use Current Location' button to get started.";
             addMessage(greetingMessage, 'bot');
             playTTS(greetingMessage);
 
-            // Show the "Use Current Location" button after the greeting message
             document.getElementById('location-button').style.display = 'inline-block';
         }
 
@@ -46,7 +44,6 @@
             });
             const data = await response.json();
 
-            // Redirect to directions page if destination is confirmed
             if (data.redirect) {
                 window.location.href = "/directions";
                 return;
@@ -59,7 +56,6 @@
                 document.getElementById('location-button').style.display = 'inline-block';
             }
 
-            // Display destination buttons if provided in the response
             if (data.destinations) {
                 displayDestinationButtons(data.destinations);
             }
@@ -67,20 +63,17 @@
 
         function addMessage(text, sender) {
             const chatBox = document.getElementById('chat-box');
-            
-            // Create the message container for this specific message
             const message = document.createElement('div');
             message.className = `message ${sender}`;
             message.textContent = text;
 
-            // If the sender is the bot, add message to the top; otherwise, add to the bottom
             if (sender === 'bot') {
                 chatBox.appendChild(message);
             } else {
                 chatBox.appendChild(message);
             }
 
-            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom of the chat box
+            chatBox.scrollTop = chatBox.scrollHeight; 
         }
 
         function displayDestinationButtons(destinations) {
@@ -128,7 +121,6 @@
                     addMessage(data.response, 'bot');
                     playTTS(data.response);
 
-                    // Display destination buttons after setting the location
                     if (data.destinations) {
                         displayDestinationButtons(data.destinations);
                     }
