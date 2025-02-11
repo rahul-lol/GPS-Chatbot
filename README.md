@@ -30,12 +30,12 @@ The Ouput of this Project  👇🏽👇🏽👇🏽👇🏽👇🏽👇🏽👇�
 
 
 Application Input-
+    ![image](https://github.com/user-attachments/assets/a387601d-c089-45d0-98fd-38507fbbec5d)
 
-   ![image](https://github.com/user-attachments/assets/50c4c15f-e191-4387-aff2-51a6195652c6)
 
 
 
 Application Output-
+    ![image](https://github.com/user-attachments/assets/e3afefd3-7289-4500-a2f2-027df540ff6d)
 
-   ![image](https://github.com/user-attachments/assets/57a2a0fa-99a3-4ffb-8455-b1d4976698fa)
 
